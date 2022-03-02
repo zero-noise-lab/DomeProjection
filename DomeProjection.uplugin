@@ -1,0 +1,17 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "DomeProjection",
+	"Description": "Plugin containing a character blueprint and related assets for real time rendering of a dome projection",
+	"Category": "Other",
+	"CreatedBy": "Marvin Weigand",
+	"CreatedByURL": "https://github.com/DrMWeigand",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false
+}
