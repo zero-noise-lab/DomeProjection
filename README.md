@@ -1,7 +1,7 @@
 # DomeProjection
-Adding a Character blueprint that enables a dome projection in Unreal Engine 4
+Providing a Character and helper blueprints that enable a dome projection with an optional user interface on a split-screen in Unreal Engine 4
 
-This plugin was originally developed as a part of a larger UE4 project called DomeVR. It enables to render graphics created in UE4 to be displayed as a dome projection.
+The provided assets were originally developed as a part of a larger UE4 project called DomeVR. They enable to render graphics created in UE4 to be displayed as a dome projection.
 
 <img src="https://user-images.githubusercontent.com/89643686/156333961-b0e31d52-c2f8-4093-9369-ee438dae598e.png" width=50% height=50%>
 
@@ -38,7 +38,35 @@ Following input actions already exist in the DomeBaseCharacter and can be set fo
 
 +AxisMappings=(AxisName="Turn",Scale=-1.000000,Key=Left)
 
+# User Interface
+
+In addition to the dome projection, this package also offers the possibility to display a user interface (UI) on one screen of a split-screen. To make use of the UI capabilities, the bLoadWithoutUI Variable in the DomeBaseCharacter needs to be set to false. In addition to that, the provided DomeBasePlayerController (or any derived class) needs to be set as the Player Controller Class in the Game Mode as well as Use Splitscreen needs to be activated and set to vertical in the Project Settings. 
+To load a specific UI widget the respective class reference can be set by the Menu variable in the DomeBaseCharacter.
+
+There is already a UI widget provided, which shows the different rendering steps and allows to change the camera and graphics settings. 
+![2022-03-03_14h14_28](https://user-images.githubusercontent.com/89643686/156571940-05d045d4-a903-4964-9d5a-ccbd12cd22a4.png)
+
+In addition a calibration picture can be displayed in different orientations and calibrated meshes for the dome projection can be conveniently exchanged by a drop-down menu. The drop-down menu scans all Meshes in Content/DomeProjection/Meshes/MirrorDistortion that contain the substring "warp". 
+
+# Rendering Methods
+
+There are two different but similar rendering methods provided. One method called Static Rendering uses premade assets for the render targets and materials and is thus limited to the fixed resolution set in the render target assets. It is activated by setting bStaticRendering in DomeBaseCharacter to true or pressing the Static Rendering button in the provided UI. The other rendering method uses dynamically created render targets and materials, which enables to set the resolution of the render targets at run-time. It can analogously be activated by setting bStaticRendering to false or pressing the Dynamic Rendering button in the UI where also different resolutions can be tested at run-time. 
+
+# Standard Settings
+
+In addition to the already mentioned settings, other settings about the graphic, input and player can also be set via different variables in the DomeBaseCharacter.
+
+# Graphics Settings
+
+Different settings about the displayed graphics can be made by the variables in the Graphics Settings category. Here the used window mode, screen resolution, V-sync and frame-rate limit can be set. 
+
+# Input Settings
+
+# Player Settings
+
+# Global settings
+
 # Drawbacks
 
-- Occlusion culling should be turned off, since it can lead to flickering issues
-- 
+- Occlusion culling can lead to flickering issues at walls and should ideally be turned off.
+- Higher input lag due to several consecutive rendering steps.
