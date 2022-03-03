@@ -1,7 +1,7 @@
 # DomeProjection
 Adding a Character blueprint that enables a dome projection in Unreal Engine 4
 
-This plugin was developed in the context of a larger UE4 project for enabling an immersive experience of experimental subjects in a neurophysiological and psychophysical experimental settings. The plugin enables to render graphics created in UE4 to be displayed as a dome projection. 
+This plugin was originally developed as a part of a larger UE4 project called DomeVR. It enables to render graphics created in UE4 to be displayed as a dome projection.
 
 <img src="https://user-images.githubusercontent.com/89643686/156333961-b0e31d52-c2f8-4093-9369-ee438dae598e.png" width=50% height=50%>
 
@@ -9,7 +9,7 @@ Such a projection is suitable to display the rendered image in a dome via a proj
 
 <img src="https://user-images.githubusercontent.com/89643686/156337394-db0663fe-2118-4e0e-a954-24ddfe37ab63.jpg" width=50% height=50%>
 
-All it takes to activate the dome projection is to use the DomeBaseCharacter (or any derived character class) as the players pawn. The dome projection is completely implemented inside the blueprint code of the DomeBaseCharacter as well as referenced render targets and materials. Therefore it is content only and should be usable at least in all UE4 versions >=4.24. 
+While the dome projection was implemented differently by using a streamed level for the rendering pipeline, it is here integrated in a Character blueprint completely. This allows for much easier use of the dome projection in arbitrary UE4 projects. All it takes to activate the dome projection is to use the DomeBaseCharacter (or any derived character class) as the players pawn. The dome projection is completely implemented inside the blueprint code of the DomeBaseCharacter and the referenced render targets and materials. Therefore it is content only and should be usable at least in all UE4 versions >=4.24. 
 
 The used method for implementing the dome projection and necessary meshes for distorting the images for the projection is based on similar method introduced by Paul Bourke for Unity: http://paulbourke.net/dome/UnityiDome/
 
@@ -37,3 +37,8 @@ Following input actions already exist in the DomeBaseCharacter and can be set fo
 +AxisMappings=(AxisName="Turn",Scale=1.000000,Key=Right)
 
 +AxisMappings=(AxisName="Turn",Scale=-1.000000,Key=Left)
+
+# Drawbacks
+
+- Occlusion culling should be turned off, since it can lead to flickering issues
+- 
