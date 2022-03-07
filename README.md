@@ -3,7 +3,7 @@ Collection of actors and assets that enable a dome projection with an optional u
 
 The method for the dome projection in UE4 was originally developed as a part of a larger project called DomeVR. The provided content allows to render any graphics created in UE4 to be displayed as a dome projection. 
 
-<img src="https://user-images.githubusercontent.com/89643686/156333961-b0e31d52-c2f8-4093-9369-ee438dae598e.png" width=50% height=50%>
+<img src="https://user-images.githubusercontent.com/89643686/156999909-2f752051-adb0-42ed-b5a6-34ff104d7764.png" width=50% height=50%>
 
 The rendered image is distorted such that it can be displayed on a dome screen via a projector that is projecting on a hemispherical mirror.
 
@@ -19,8 +19,8 @@ The final distortion of the fisheye projection is specific to the setup and need
 
 # How to use
 
-1. Copy the plugin in the Plugins folder at the root of your UE4 project. 
-2. Open your project and activate the plugin. 
+1. Copy the content to the root of your projects content folder. 
+2. Open your project. 
 3. Use the DomeBaseCharacter (or any derived Character class) as Default Pawn in your GameMode.
 4. Run your game
 
