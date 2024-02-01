@@ -1,0 +1,17 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "DomeProjection",
+	"Description": "",
+	"Category": "Other",
+	"CreatedBy": "Zero Noise Lab",
+	"CreatedByURL": "https://github.com/zero-noise-lab",
+	"DocsURL": "https://github.com/zero-noise-lab/DomeProjection",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false
+}

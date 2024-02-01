@@ -1,0 +1,24 @@
+# Unreal Engine 5 specific rules
+*.uasset filter=lfs diff=lfs merge=lfs -text
+*.umap filter=lfs diff=lfs merge=lfs -text
+
+# Text file line endings normalization
+*.ini text=auto
+*.txt text=auto
+*.md text=auto
+*.cpp text=auto
+*.h text=auto
+*.cs text=auto
+
+# Custom binary assets might also benefit from LFS tracking
+# *.customextension filter=lfs diff=lfs merge=lfs -text
+
+# Ensure LFS is used for large binaries
+*.psd filter=lfs diff=lfs merge=lfs -text
+*.ai filter=lfs diff=lfs merge=lfs -text
+
+# Force bash scripts to always have lf line endings so they can run in Git Bash
+*.sh text eol=lf
+
+# Force bat scripts to always have crlf line endings so they can run in cmd.exe
+*.bat text eol=crlf
