@@ -1,76 +1,85 @@
-# DomeProjection
-Collection of actors and assets that enable a dome projection with an optional user interface on a split-screen in Unreal Engine 4 (UE4)
+# DomeProjection: Enhanced Dome Projection System for Unreal Engine
 
-The method for the dome projection in UE4 was originally developed as a part of a larger project called DomeVR. The provided content allows to render any graphics created in UE4 to be displayed as a dome projection. 
+DomeProjection is an integrated suite of actors and assets designed to facilitate dome projection within Unreal Engine 5 (UE5), complemented by an optional split-screen user interface for enhanced user interaction. Originally developed as part of the DomeVR project, this system enables seamless rendering of UE5 graphics for immersive dome projection experiences in the form of a simple Unreal plugin.
 
-<img src="https://user-images.githubusercontent.com/89643686/156999909-2f752051-adb0-42ed-b5a6-34ff104d7764.png" width=50% height=50%>
+The system enables to render gameplay in Unreal for display on a dome screen, utilizing a projector and hemispherical mirror setup to achieve a visually coherent projection surface.
 
-The rendered image is distorted such that it can be displayed on a dome screen via a projector that is projecting on a hemispherical mirror.
+![Dome Projection Illustration](https://user-images.githubusercontent.com/89643686/156999909-2f752051-adb0-42ed-b5a6-34ff104d7764.png)
 
-<img src="https://user-images.githubusercontent.com/89643686/156337394-db0663fe-2118-4e0e-a954-24ddfe37ab63.jpg" width=50% height=50%>
 
-While the dome projection was originally implemented using a streamed level for the rendering pipeline, here it is completely integrated in a Character blueprint. This allows for much easier use in arbitrary UE4 projects. All it takes to activate the dome projection is to use the _DomeBaseCharacter_ (or any derived character class) as the players pawn. The dome projection is completely implemented inside the blueprint code of the _DomeBaseCharacter_ and the referenced render targets and materials. Therefore, it is content only and should at least be usable in all UE4 versions >=4.24. 
+In the original design of the dome projection system, a streaming level technique was employed to establish the rendering pipeline for the dome projection. However, this architecture was revised for this plugin and is now seamlessly integrated in a Character blueprint. This enables a much easier usage without any complicated additions in existing Unreal projects. Activation of the dome projection feature is straightforward: developers need only to assign the _DomeBaseCharacter_ blueprint—or any class derived from it—as the player's pawn. This blueprint encapsulates the entirety of the dome projection logic, including interactions with designated render targets and materials, ensuring a blueprint-only solution that is compatible with UE5.3 and later.
 
-The method used for implementing the dome projection and necessary meshes for distorting the images for the projection is based on a similar method introduced by Paul Bourke for Unity: http://paulbourke.net/dome/UnityiDome/
+The implementation strategy for the dome projection, including the creation of essential meshes for accurately distorting projection images, leverages a methodology akin to that devised by Paul Bourke for Unity applications. This approach is detailed on Bourke's website ([UnityiDome](http://paulbourke.net/dome/UnityiDome/)), providing a foundational concept for adapting similar techniques within Unreal Engine.
 
-Here the five camera method for generating a fisheye projection with a wider FOV (up to 240 degree) was used: http://paulbourke.net/dome/unity3d/
+Central to this method is the use of a five-camera setup aimed at producing a fisheye projection capable of encompassing a wide field of view (FOV), extending up to 240 degrees. This technique is thoroughly explained in Bourke's documentation on creating fisheye projections within Unity ([Fisheye Projection](http://paulbourke.net/dome/unity3d/)), offering insights into achieving broad visual coverage in dome projection setups.
 
-The final distortion of the fisheye projection is specific to the setup and needs to be calibrated by exchanging the used mesh with a calibrated mesh that can be generated using Paul Bourke's Meshmapper application: http://paulbourke.net/dome/meshmapper/
+Adjusting the fisheye projection to fit specific dome setups requires a calibration process, wherein the default mesh used for image distortion is replaced with a specifically calibrated mesh. This tailored mesh can be crafted using Bourke's Meshmapper tool ([Meshmapper Application](http://paulbourke.net/dome/meshmapper/)), a resource designed to facilitate the creation of meshes that conform precisely to the unique contours and characteristics of individual projection environments. This calibration ensures that the fisheye distortion aligns perfectly with the dome's geometry, optimizing the visual experience.
 
-# How to use
+## Requirements
 
-1. Copy the content to the root of your projects content folder. 
-2. Open your project. 
-3. Use the DomeBaseCharacter (or any derived Character class) as Default Pawn in your GameMode.
-4. Run your game
+-   Unreal Engine 5.3 or later
 
-Following input actions already exist in the DomeBaseCharacter and can be set for basic movement capabilites in the DefaultInput.ini as follows
+## Implementation Guide
 
-```+AxisMappings=(AxisName="MoveForward",Scale=1.000000,Key=W)
-+AxisMappings=(AxisName="MoveForward",Scale=-1.000000,Key=S)
-+AxisMappings=(AxisName="MoveRight",Scale=-1.000000,Key=A)
-+AxisMappings=(AxisName="MoveRight",Scale=1.000000,Key=D)
-+AxisMappings=(AxisName="Turn",Scale=1.000000,Key=Right)
-+AxisMappings=(AxisName="Turn",Scale=-1.000000,Key=Left)
-```
-# User Interface
+To utilize DomeProjection, clone the plugin into your project's Plugin folder. Activate the _DomeBaseGameMode_, enable split-screen by setting `Activate Use Splitscreen` to true and select vertical orientation in the Project Settings. Input configurations leverage the Enhanced Input system introduced in Unreal Engine 5.0.
 
-In addition to the dome projection, this package also offers the possibility to display a user interface (UI) on one screen of a split-screen. To make use of the UI capabilities following steps need to be taken: 
-1. Set bLoadWithoutUI Variable in the _DomeBaseCharacter_ to false. 
-2. Set the provided _DomeBasePlayerController_ (or any derived class) as the Player Controller Class in the Game Mode
-3. Activate Use Splitscreen and set it to vertical in the Project Settings. 
-4. Set a class reference to a specific UI widget in the Menu variable of _DomeBaseCharacter_.
+## User Interface (UI) Features
 
-Standardly, there is already a UI widget provided, which shows the different rendering steps and allows one to change the camera and graphics settings. 
-![2022-03-03_14h14_28](https://user-images.githubusercontent.com/89643686/156571940-05d045d4-a903-4964-9d5a-ccbd12cd22a4.png)
+The DomeProjection package enhances user interaction by incorporating a user interface (UI) on one side of a split-screen setup, providing direct control over projection settings. This UI feature can be enabled or disabled by adjusting the `bLoadWithoutUI` variable in the _DomeBaseCharacter_ blueprint to true, allowing users to choose between a UI-driven or pure projection experience based on their needs.
 
-Furthermore, a calibration image can be displayed in different orientations and calibrated meshes for the dome projection can be conveniently exchanged by a drop-down menu under Warp Mesh Settings. The drop-down menu scans all meshes in _Content/DomeProjection/Meshes/MirrorDistortion_ that contain the substring "warp". 
+The UI is developed within a widget named _DomeBaseUI_. For customization, users can replace _DomeBaseUI_ with another widget by changing the `Menu` variable in _DomeBaseCharacter_, enabling the use of a different UI layout or functionality that better suits their project's requirements. By default, the UI is positioned on the left side of the split-screen, but this can be altered by toggling the `bSwitchSplitscreens` variable in _DomeBaseCharacter_ to true, providing flexibility in how the UI and projection content are displayed.
 
-# Rendering Methods
+The package comes with a predefined UI widget that displays the different stages of rendering and offers interactive elements to adjust camera and graphics settings, facilitating a user-friendly interface for managing projection parameters.
 
-There are two different but similar rendering methods provided. One method called Static Rendering uses premade assets for the render targets and materials and is thus limited to the fixed resolution set in the render target assets. It is activated by setting _bStaticRendering_ in _DomeBaseCharacter_ to true or pressing the Static Rendering button in the provided UI. The other rendering method uses dynamically created render targets and materials, which allows one to set the resolution of the render targets at run-time. It can analogously be activated by setting _bStaticRendering_ to false or pressing the Dynamic Rendering button in the UI where also different resolutions can be tested at run-time. 
+![UI Widget Overview](https://user-images.githubusercontent.com/89643686/156571940-05d045d4-a903-4964-9d5a-ccbd12cd22a4.png)
+
+Moreover, the UI includes functionality for showing a calibration image in various orientations, aiding in the alignment of the projection with the dome surface. An essential feature is the 'Warp Mesh Settings' dropdown menu, which scans the _Content/DomeProjection/Meshes/MirrorDistortion_ directory for meshes tagged with "warp." This enables users to easily switch between different calibrated meshes, facilitating the calibration process for optimal dome projection. This approach to UI design emphasizes practicality and ease of use, aiming to streamline the setup and calibration of dome projections.
+
+## Rendering Techniques
+
+The DomeProjection toolkit offers two distinct rendering approaches: Static Rendering and Dynamic Rendering, each catering to different project requirements and setups.
+
+**Static Rendering** is designed around the use of pre-configured assets for both the render targets and materials. This method is inherently constrained by the resolutions predefined within the render target assets, limiting scalability and flexibility. Activation is straightforward: users set the `bStaticRendering` variable within the _DomeBaseCharacter_ to true or engage the Static Rendering mode via the corresponding button in the user interface. This mode is ideal for projects where a consistent, unchanging resolution is sufficient.
+
+Conversely, **Dynamic Rendering** introduces the capability to generate render targets and materials in real-time, affording users the flexibility to adjust the resolution of these render targets during runtime. This method is enabled by setting the `bStaticRendering` variable to false or selecting the Dynamic Rendering option in the UI. A key advantage here is the ability to experiment with various resolutions directly in the runtime environment, optimizing performance and visual quality to meet specific needs.
 
 # Standard Settings
 
-In addition to the already mentioned settings, other settings for the graphics, inputs and players can be set via different variables in the _DomeBaseCharacter_.
+Beyond the rendering methods, DomeProjection allows for extensive customization through various settings within the _DomeBaseCharacter_.
 
 ## Graphics Settings
 
-Different settings for the displayed graphics can be defined by the variables in the Graphics Settings category. Here, the used window mode (WindowMode), screen resolution (_ScreenResolution_), V-sync (_VSync_) and frame-rate limit (_FramerateLimit_) can be set. Besides that, standard values for the resolution of the render targets of the already explained dynamic rendering method can be set (_FisheyeResolution_, _CaptureResolution_), and there are options for loading the simulation with or without the UI (_bLoadWithoutUI_) and for switching the side of the screen the UI is displayed on (_bSwitchSplitscreens_).
+The Graphics Settings section provides a suite of variables for adjusting the visual output, including:
 
-## Input Settings
+-   **Window Mode (`WindowMode`)**: Defines the window behavior (e.g., fullscreen, windowed).
+-   **Screen Resolution (`ScreenResolution`)**: Sets the display resolution.
+-   **V-Sync (`VSync`)**: Enables or disables vertical sync to prevent screen tearing.
+-   **Frame-rate Limit (`FramerateLimit`)**: Caps the maximum frames per second (FPS) to reduce GPU strain.
 
-There are also settings to modify the impact of the preconfigured input events for controlling the character. The _BaseTurnRate_ sets the speed of rotating the character around its yaw-axis. The variables ending in _*Fraction_ control the scale of the respective axes which enables one to change such settings at run-time and not only statically in the input settings within the Project Settings. The _SkipInputValue_ variable is used in situations in which the used controller is not always perfectly at 0 when idle. If selected, the input values that are smaller than the set value are disregarded.
+For projects utilizing Dynamic Rendering, default values for render target resolutions can be specified (`FisheyeResolution`, `CaptureResolution`), ensuring a balance between performance and visual fidelity. Additional options include toggling the UI visibility (`bLoadWithoutUI`) and switching the UI display side on the split-screen (`bSwitchSplitscreens`), providing further control over the user experience and presentation.
+
+## Input Modifiers
+
+Input modifiers within the DomeProjection toolkit provide granular control over the character's movement dynamics:
+
+-   **BaseTurnRate**: This variable adjusts the rotation speed of the character around its yaw axis, influencing how quickly the character turns in response to player input.
+-   **Fraction Variables**: Suffixes in variable names ending with `_Fraction` indicate their role in scaling input sensitivity across different axes. These variables offer the flexibility to dynamically adjust input responsiveness during gameplay, rather than being fixed settings within the Project Settings. This feature is particularly useful for fine-tuning character control to match player preferences or gameplay requirements.
+-   **SkipInputValue**: To address the issue of controllers that do not rest at a zero value when idle, the `SkipInputValue` setting is used. Input values falling below this threshold are ignored, mitigating unintended character movement or actions due to controller drift or inaccuracies.
 
 ## Player Settings
 
-The player settings define the dimensions of the player. The _PlayerHeight_ defines the height of the character and the _PlayerRadius_ defines the circumference of the character. The _CameraHeight_ defines basically the height of the eyes of the character but is naturally limited by the _PlayerHeight_. The _CameraRotation_ determines the rotation of the camera on the pitch-axis. 
+Player settings define the physical parameters of the character within the virtual environment:
 
-# Global settings
+-   **PlayerHeight**: Specifies the character's height, impacting how the character interacts with the environment and the perspective of the player camera.
+-   **PlayerRadius**: Determines the character's circumference, affecting collision detection and spatial navigation.
+-   **CameraHeight**: Sets the vertical position of the camera relative to the character, essentially representing the height at which the character's eyes are located. This setting is constrained by the `PlayerHeight`, ensuring the camera's position remains realistic.
+-   **CameraRotation**: Controls the camera's pitch rotation, allowing for adjustments to the viewing angle upwards or downwards.
 
-All of the aforementioned settings can easily be changed by the variables in the _DomeBaseCharacter_. However, changes during run-time are lost when the level is changed and the character is reinitialized. This might be undesirable in some situations. To tackle this problem, there is also an interface provided which can be implemented by a custom GameInstance class. Thus variable values can be saved there globally during run-time and are preserved between level changes. If a Game Instance that implements the _IDomeGameInstance_ interface is set in the GameInstance variable of the DomeBaseCharacter, it pulls the respective settings via the interface functions of the set Game Instance instead of its own variables. 
+## Global Settings
 
-# Drawbacks
+To address the potential loss of customized settings upon level change or character reinitialization, DomeProjection introduces a mechanism for preserving these settings globally. Implementing the `IDomeGameInstance` interface within a custom GameInstance class allows for the storage of variable values across the game session. When a GameInstance implementing this interface is linked to the `GameInstance` variable of _DomeBaseCharacter_, it retrieves settings through the interface functions of the specified GameInstance, rather than relying solely on its internal variables. This system ensures continuity and consistency of user-defined settings throughout the gameplay experience, enhancing the overall game dynamic and player satisfaction.
+
+## Known Limitations
 
 - Occlusion culling can lead to flickering issues at walls and should ideally be turned off.
 - In total 7 rendering steps lead to a high demand on GPU resources.
